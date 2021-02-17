@@ -143,16 +143,19 @@ namespace SodaMachine
         //Returns null if no coin can be found of that name.
         private Coin GetCoinFromRegister(string name)
         {
-
+            
             return null;
         }
         //Takes in the total payment amount and the price of can to return the change amount.
-        private double DetermineChange(double totalPayment, double canPrice)
+        public double DetermineChange(double totalPayment, double canPrice)
         {
-            return 0;
+            double changeLeftOver = totalPayment - canPrice;
+            return changeLeftOver;
+
+            
         }
         //Takes in a list of coins to returnt the total value of the coins as a double.
-        public double TotalCoinValue(List<Coin> payment)   // -- self note: this method is complete??
+        private double TotalCoinValue(List<Coin> payment)   // -- self note: this method is complete??
         {
             //list of coins, EACH coin has a Value
             //Add up those values
