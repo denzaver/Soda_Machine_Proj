@@ -52,19 +52,33 @@ namespace SodaMachine
                 _register.Add(penny);
             }
 
-
-
         }
         //A method to fill the sodamachines inventory with soda can objects.
         public void FillInventory()
-        {
-            
+        {      // self note: what are we filling it with? sodas - orange soda, rootbeer, cola
+            for (int i = 0; i <= 10; i++)
+            {
+                OrangeSoda orangeSoda = new OrangeSoda();
+                _inventory.Add(orangeSoda);
+            }
+
+            for (int i = 0; i <= 10; i++)
+            {
+                RootBeer rootBeer = new RootBeer();
+                _inventory.Add(rootBeer);
+            }
+
+            for (int i = 0; i <= 10; i++)
+            {
+                Cola cola = new Cola();
+                _inventory.Add(cola);
+            }
         }
         //Method to be called to start a transaction.
         //Takes in a customer which can be passed freely to which ever method needs it.
         public void BeginTransaction(Customer customer)
         {
-            bool willProceed = UserInterface.DisplayWelcomeInstructions(_inventory);
+            bool willProceed = UserInterface.DisplayWelcomeInstructions(_inventory);  ///*********  WHATS GOING ON HERE???
             if (willProceed)
             {
                 Transaction(customer);
@@ -77,15 +91,19 @@ namespace SodaMachine
         //pass payment to the calculate transaction method to finish up the transaction based on the results.
         private void Transaction(Customer customer)
         {
-            string customerCanSelection = "";   // code exaxmple proivded by charles
+            string customerCanSelection = "";   // code exaxmple proivded by charles  -- whats happenign here?
             Can canchoice = GetSodaFromInventory(customerCanSelection);
             customer.GatherCoinsFromWallet(canchoice);
            
         }
         //Gets a soda from the inventory based on the name of the soda.
-        private Can GetSodaFromInventory(string nameOfSoda)
+        private Can GetSodaFromInventory(string nameOfSoda)//"Cola"
         {
-          
+            //find first can in the inventory whose name property matches the parameter
+
+
+
+            return null;
         }
 
         //This is the main method for calculating the result of the transaction.
@@ -99,7 +117,10 @@ namespace SodaMachine
                                                                                                  // so we end up creating a new list for every situation ??
                                                                                                  // meaning, theres the lsit here, GatherChange method, total coin method
         {
-           if (payment != chosenSoda.Name.)
+           //if (payment != chosenSoda.Price)
+           // {
+
+           // }
         }
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
@@ -107,34 +128,46 @@ namespace SodaMachine
         //If the change cannot be made, return null.
         private List<Coin> GatherChange(double changeValue)
         {
-            
+
+            return null;
         }
         //Reusable method to check if the register has a coin of that name.
         //If it does have one, return true.  Else, false.
         private bool RegisterHasCoin(string name)
         {
-           
+
+
+            return false;
         }
         //Reusable method to return a coin from the register.
         //Returns null if no coin can be found of that name.
         private Coin GetCoinFromRegister(string name)
         {
-            
+
+            return null;
         }
         //Takes in the total payment amount and the price of can to return the change amount.
         private double DetermineChange(double totalPayment, double canPrice)
         {
-            
+            return 0;
         }
         //Takes in a list of coins to returnt the total value of the coins as a double.
-        private double TotalCoinValue(List<Coin> payment)
+        public double TotalCoinValue(List<Coin> payment)   // -- self note: this method is complete??
         {
-           
+            //list of coins, EACH coin has a Value
+            //Add up those values
+            double paymentSum = 0;
+            foreach (Coin coin in payment)
+            {
+                paymentSum += coin.Value;
+            }
+            return paymentSum;
+           //return the variable that you added the Values into
         }
         //Puts a list of coins into the soda machines register.
-        private void DepositCoinsIntoRegister(List<Coin> coins)
+        private void DepositCoinsIntoRegister(List<Coin> coins)  //self note: coins need to be ADDED to REGISTER
         {
-           
+            _register.Add(coins.Count);
         }
     }
 }
