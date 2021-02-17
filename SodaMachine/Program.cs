@@ -14,8 +14,15 @@ namespace SodaMachine
             //simulation.Simulate();
 
             SodaMachine sodaMachine = new SodaMachine();
-            //sodaMachine.FillRegister();
-            //double testing = sodaMachine.DetermineChange(.10, .05);
+            sodaMachine.FillRegister();
+            //bool doesContain = sodaMachine.RegisterHasCoin("Quarter");
+            //Console.WriteLine(doesContain);
+            Coin coinFromREgister = sodaMachine.GetCoinFromRegister("dime");
+
+
+
+
+            double testing = sodaMachine.DetermineChange(.10, .05);
 
 
 
@@ -29,9 +36,7 @@ namespace SodaMachine
             //double Tesdouble2 = sodaMachine.TotalCoinValue(testList2);
             ////testDouble should be .11
 
-            
 
-            Console.WriteLine(testing);
             Console.ReadLine();
         }
     }

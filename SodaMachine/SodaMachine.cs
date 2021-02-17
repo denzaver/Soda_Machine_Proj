@@ -117,33 +117,53 @@ namespace SodaMachine
                                                                                                  // so we end up creating a new list for every situation ??
                                                                                                  // meaning, theres the lsit here, GatherChange method, total coin method
         {
-           //if (payment != chosenSoda.Price)
-           // {
+            double totalValue = TotalCoinValue(payment);
+            double totalChange = DetermineChange(totalValue,chosenSoda.Price);
+            List<Coin> ChangeList = GatherChange(totalChange);
+            //if (payment != chosenSoda.Price)
+            // {
 
-           // }
+            // }
         }
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
         //Returns the list of coins as change to despense.
         //If the change cannot be made, return null.
-        private List<Coin> GatherChange(double changeValue)
+        public List<Coin> GatherChange(double changeValue) //self note:
         {
+            for (int i = 0; i < _register.Count; i++)
+            {
 
+            }
+            // if statement
+            // coins are going to come from _register
             return null;
         }
         //Reusable method to check if the register has a coin of that name.
         //If it does have one, return true.  Else, false.
-        private bool RegisterHasCoin(string name)
+        public bool RegisterHasCoin(string name)
         {
-
-
+            foreach(Coin coinName in _register)
+            {
+                if (name == coinName.Name)
+                {
+                    return true;
+                }
+            }
             return false;
         }
         //Reusable method to return a coin from the register.
         //Returns null if no coin can be found of that name.
-        private Coin GetCoinFromRegister(string name)
+        public Coin GetCoinFromRegister(string name) //self note: return/remove? coin from register
         {
-            
+            foreach(Coin coin in _register) // cant really remove from within a FOREACH .. use FOR LOOP 
+            {
+                if (name == coin.Name)
+                {
+                    //_register.Remove(coin);
+                    return coin;
+                }
+            }
             return null;
         }
         //Takes in the total payment amount and the price of can to return the change amount.
@@ -152,7 +172,6 @@ namespace SodaMachine
             double changeLeftOver = totalPayment - canPrice;
             return changeLeftOver;
 
-            
         }
         //Takes in a list of coins to returnt the total value of the coins as a double.
         private double TotalCoinValue(List<Coin> payment)   // -- self note: this method is complete??
@@ -174,7 +193,6 @@ namespace SodaMachine
             {
                 _register.Add(coin);
             }
-            
         }
     }
 }
