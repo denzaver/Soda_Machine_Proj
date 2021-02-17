@@ -12,6 +12,8 @@ namespace SodaMachine
         private List<Coin> _register;
         private List<Can> _inventory;
 
+
+
         //Constructor (Spawner)
         public SodaMachine()
         {
@@ -26,7 +28,32 @@ namespace SodaMachine
         //A method to fill the sodamachines register with coin objects.
         public void FillRegister()
         {
-           
+            for (int i = 0; i <= 20; i++)
+            {
+                Quarter quarter = new Quarter(); // self note: here we are INSTANTIATING a NEW coin(QUARTER) each time !!!
+                _register.Add(quarter);
+            }
+
+            for (int i = 0; i <= 10; i++)
+            {
+                Dime dime = new Dime();
+                _register.Add(dime);
+            }
+
+            for (int i = 0; i <= 20; i++)
+            {
+                Nickel nickel = new Nickel();
+                _register.Add(nickel);
+            }
+
+            for (int i = 0; i <= 50; i++)
+            {
+                Penny penny = new Penny();
+                _register.Add(penny);
+            }
+
+
+
         }
         //A method to fill the sodamachines inventory with soda can objects.
         public void FillInventory()
@@ -68,9 +95,11 @@ namespace SodaMachine
         //If the payment is greater than the cost of the soda, but the machine does not have ample change: Despense payment back to the customer.
         //If the payment is exact to the cost of the soda:  Despense soda.
         //If the payment does not meet the cost of the soda: despense payment back to the customer.
-        private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
+        private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)  // !!!! this list of coins... 
+                                                                                                 // so we end up creating a new list for every situation ??
+                                                                                                 // meaning, theres the lsit here, GatherChange method, total coin method
         {
-           
+           if (payment != chosenSoda.Name.)
         }
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
@@ -97,7 +126,7 @@ namespace SodaMachine
         {
             
         }
-        //Takes in a list of coins to returnt he total value of the coins as a double.
+        //Takes in a list of coins to returnt the total value of the coins as a double.
         private double TotalCoinValue(List<Coin> payment)
         {
            
