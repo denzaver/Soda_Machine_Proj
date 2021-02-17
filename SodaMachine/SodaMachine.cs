@@ -167,7 +167,11 @@ namespace SodaMachine
         //Puts a list of coins into the soda machines register.
         private void DepositCoinsIntoRegister(List<Coin> coins)  //self note: coins need to be ADDED to REGISTER
         {
-            _register.Add(coins.Count);
+            foreach(Coin coin in coins)
+            {
+                _register.Add(coin);
+            }
+            
         }
     }
 }
