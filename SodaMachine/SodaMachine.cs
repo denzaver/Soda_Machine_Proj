@@ -92,9 +92,21 @@ namespace SodaMachine
         //pass payment to the calculate transaction method to finish up the transaction based on the results.
         private void Transaction(Customer customer)
         {
-            string customerCanSelection = "";   // code exaxmple proivded by charles  -- whats happenign here?
+            // code exaxmple proivded by charles  
+
+            // need input from customer of the soda that they want
+            string customerCanSelection = ""; 
+
+            // grab the desired soday from the invetory based on the customers choice
             Can canchoice = GetSodaFromInventory(customerCanSelection);
-            customer.GatherCoinsFromWallet(canchoice);
+
+            // get the payment from the customer
+            List<Coin> payment = customer.GatherCoinsFromWallet(canchoice); // accessing the method witin the customer class
+
+            // pass payent to the CalculateTransaction method
+
+            CalculateTransaction(payment, canchoice, customer);  
+
            
         }
         //Gets a soda from the inventory based on the name of the soda.
@@ -128,27 +140,23 @@ namespace SodaMachine
         //This is the method that will determine the following:
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------
         //If the payment is greater than the price of the soda, and if the sodamachine has enough change to return: Despense soda, and change to the customer.
-
         //If the payment is greater than the cost of the soda, but the machine does not have ample change: Despense payment back to the customer.
-
         //If the payment is exact to the cost of the soda:  Despense soda.
         //If the payment does not meet the cost of the soda: despense payment back to the customer.
         private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)                                                                                    
         {
             double totalValue = TotalCoinValue(payment);  // takes in the list of coins(payment) and turns them into a DOUBLE amount 
             double totalChange = DetermineChange(totalValue,chosenSoda.Price);
-            //Can givenSoda = GetSodaFromInventory(chosenSoda.Name);
             List<Coin> ChangeList = GatherChange(totalChange);
-            List<Can> boughtSoda = new List<Can>();
 
-            if (totalValue > chosenSoda.Price && GatherChange(totalChange) != null)
+            if (totalValue > chosenSoda.Price && ChangeList != null)
             {
                 // Despense soda, and change to the customer.
                 GetSodaFromInventory(chosenSoda.Name);
                 customer.AddCanToBackpack(chosenSoda);
                 customer.AddCoinsIntoWallet(ChangeList);
             }
-            else if (totalValue > chosenSoda.Price && GatherChange(totalChange) == null)
+            else if (totalValue > chosenSoda.Price && ChangeList == null)
             {
                 customer.AddCoinsIntoWallet(payment);
             }
