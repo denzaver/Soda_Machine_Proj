@@ -129,12 +129,32 @@ namespace SodaMachine
         //Attempts to gather all the required coins from the sodamachine's register to make change.
         //Returns the list of coins as change to despense.
         //If the change cannot be made, return null.
-        public List<Coin> GatherChange(double changeValue) //self note:
+        public List<Coin> GatherChange(double changeValue) //self note: need 28 cents in change, .25 added, still 3 cents
         {
-            for (int i = 0; i < _register.Count; i++)
-            {
+            List<Coin> coinChange = new List<Coin>();
 
+
+            while (changeValue > 0)
+            {
+                if (changeValue > .25)
+                {
+                    RegisterHasCoin("quarter");
+                    Coin getQuarter = GetCoinFromRegister("quarter");
+                    coinChange.Add(getQuarter);
+                    changeValue -= .25;
+                    
+                }
+                if (changeValue > .10)
+                {
+                    RegisterHasCoin("dime");
+                    Coin getDime = GetCoinFromRegister("dime");
+                    coinChange.Add(getDime);
+                    changeValue -= .10;
+                    
+                }
             }
+
+
             // if statement
             // coins are going to come from _register
             return null;

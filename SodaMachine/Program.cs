@@ -15,14 +15,15 @@ namespace SodaMachine
 
             SodaMachine sodaMachine = new SodaMachine();
             sodaMachine.FillRegister();
+            sodaMachine.GatherChange(.35);
             //bool doesContain = sodaMachine.RegisterHasCoin("Quarter");
             //Console.WriteLine(doesContain);
-            Coin coinFromREgister = sodaMachine.GetCoinFromRegister("dime");
+            //Coin coinFromREgister = sodaMachine.GetCoinFromRegister("dime");
 
 
 
 
-            double testing = sodaMachine.DetermineChange(.10, .05);
+            //double testing = sodaMachine.DetermineChange(.10, .05);
 
 
 
