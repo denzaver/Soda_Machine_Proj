@@ -78,7 +78,8 @@ namespace SodaMachine
         //Takes in a customer which can be passed freely to which ever method needs it.
         public void BeginTransaction(Customer customer)
         {
-            bool willProceed = UserInterface.DisplayWelcomeInstructions(_inventory);  ///*********  WHATS GOING ON HERE???
+            bool willProceed = UserInterface.DisplayWelcomeInstructions(_inventory);  ///*********  WHATS GOING ON HERE??? - is this complete?
+
             if (willProceed)
             {
                 Transaction(customer);
@@ -101,64 +102,122 @@ namespace SodaMachine
         {
             //find first can in the inventory whose name property matches the parameter
 
-
-
+            for (int i = 0; i < _inventory.Count; i++)
+            {
+                if(_inventory[i].Name == nameOfSoda)
+                {
+                    _inventory.RemoveAt(i);
+                    return _inventory[i]; 
+                }
+            }
             return null;
+
+            //foreach(Can soda in _inventory)
+            //{
+            //    if (nameOfSoda == soda.Name)
+            //    {
+            //        Console.WriteLine();
+            //        return soda;
+            //    }
+            //}
+            //return null;
         }
 
         //This is the main method for calculating the result of the transaction.
         //It takes in the payment from the customer, the soda object they selected, and the customer who is purchasing the soda.
         //This is the method that will determine the following:
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------
         //If the payment is greater than the price of the soda, and if the sodamachine has enough change to return: Despense soda, and change to the customer.
+
         //If the payment is greater than the cost of the soda, but the machine does not have ample change: Despense payment back to the customer.
+
         //If the payment is exact to the cost of the soda:  Despense soda.
         //If the payment does not meet the cost of the soda: despense payment back to the customer.
-        private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)  // !!!! this list of coins... 
-                                                                                                 // so we end up creating a new list for every situation ??
-                                                                                                 // meaning, theres the lsit here, GatherChange method, total coin method
+        private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)                                                                                    
         {
-            double totalValue = TotalCoinValue(payment);
+            double totalValue = TotalCoinValue(payment);  // takes in the list of coins(payment) and turns them into a DOUBLE amount 
             double totalChange = DetermineChange(totalValue,chosenSoda.Price);
+            //Can givenSoda = GetSodaFromInventory(chosenSoda.Name);
             List<Coin> ChangeList = GatherChange(totalChange);
-            //if (payment != chosenSoda.Price)
-            // {
+            List<Can> boughtSoda = new List<Can>();
 
-            // }
+            if (totalValue > chosenSoda.Price && GatherChange(totalChange) != null)
+            {
+                // Despense soda, and change to the customer.
+                GetSodaFromInventory(chosenSoda.Name);
+                customer.AddCanToBackpack(chosenSoda);
+                customer.AddCoinsIntoWallet(ChangeList);
+            }
+            else if (totalValue > chosenSoda.Price && GatherChange(totalChange) == null)
+            {
+                customer.AddCoinsIntoWallet(payment);
+            }
+            else if (totalValue == chosenSoda.Price)
+            {
+                GetSodaFromInventory(chosenSoda.Name);
+                customer.AddCanToBackpack(chosenSoda);
+            }
+            else if (totalValue < chosenSoda.Price)
+            {
+                customer.AddCoinsIntoWallet(payment);
+            }
+
         }
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
         //Returns the list of coins as change to despense.
         //If the change cannot be made, return null.
-        public List<Coin> GatherChange(double changeValue) //self note: need 28 cents in change, .25 added, still 3 cents
+        public List<Coin> GatherChange(double changeValue) //self note: 
         {
             List<Coin> coinChange = new List<Coin>();
 
-
             while (changeValue > 0)
             {
-                if (changeValue > .25)
+                if (changeValue >= .25 && RegisterHasCoin("Quarter"))
                 {
-                    RegisterHasCoin("quarter");
-                    Coin getQuarter = GetCoinFromRegister("quarter");
+
+                    Coin getQuarter = GetCoinFromRegister("Quarter");
                     coinChange.Add(getQuarter);
-                    changeValue -= .25;
-                    
+                    changeValue -= .25;  // performing the arithmetic
+                    changeValue = Math.Round(changeValue, 2); //reassign the value to be rounded
                 }
-                if (changeValue > .10)
+
+                else if (changeValue >= .10 && RegisterHasCoin("Dime"))
                 {
-                    RegisterHasCoin("dime");
-                    Coin getDime = GetCoinFromRegister("dime");
+                    Coin getDime = GetCoinFromRegister("Dime");
                     coinChange.Add(getDime);
                     changeValue -= .10;
+                    changeValue = Math.Round(changeValue, 2);
+                }
+
+                else if (changeValue >= .05 && RegisterHasCoin("Nickle"))
+                {
+                    Coin getNickle = GetCoinFromRegister("Nickle");
+                    coinChange.Add(getNickle);
+                    changeValue -= 0.5;
+                    changeValue = Math.Round(changeValue, 2);
+                }
+                else if (changeValue >= .01 && RegisterHasCoin("Penny"))
+                {
                     
+                    Coin getPenny = GetCoinFromRegister("Penny");
+                    coinChange.Add(getPenny);
+                    changeValue -= 0.1;
+                    changeValue = Math.Round(changeValue, 2); // the 2 represents where want to "cut off "              
+                }
+                else
+                {
+                    Console.WriteLine("Needed change is not available!");
+                    return null; // why did we add null here? -- we return null sice there is a possibility of not being able to return the 
+                                 // the needed amount of change. We then NULL the operation and notify the user... 
                 }
             }
+            return coinChange;
+            // self note: if statement
+            // self note: coins are going to come from _register
 
-
-            // if statement
-            // coins are going to come from _register
-            return null;
         }
+
         //Reusable method to check if the register has a coin of that name.
         //If it does have one, return true.  Else, false.
         public bool RegisterHasCoin(string name)
@@ -176,12 +235,22 @@ namespace SodaMachine
         //Returns null if no coin can be found of that name.
         public Coin GetCoinFromRegister(string name) //self note: return/remove? coin from register
         {
-            foreach(Coin coin in _register) // cant really remove from within a FOREACH .. use FOR LOOP 
+            //foreach(Coin coin in _register) // cant really remove from within a FOREACH .. use FOR LOOP 
+            //{
+            //    if (name == coin.Name)
+            //    {
+            //        //_register.Remove(coin);
+            //        return coin;
+            //    }
+            //}
+            //return null;
+
+            for (int i = 0; i < _register.Count; i++)
             {
-                if (name == coin.Name)
+                if (_register[i].Name == name)
                 {
-                    //_register.Remove(coin);
-                    return coin;
+                    _inventory.RemoveAt(i);
+                    return _register[i];
                 }
             }
             return null;
@@ -193,7 +262,7 @@ namespace SodaMachine
             return changeLeftOver;
 
         }
-        //Takes in a list of coins to returnt the total value of the coins as a double.
+        //Takes in a list of coins to return the total value of the coins as a double.
         private double TotalCoinValue(List<Coin> payment)   // -- self note: this method is complete??
         {
             //list of coins, EACH coin has a Value
