@@ -10,8 +10,8 @@ namespace SodaMachine
     {
         static void Main(string[] args)
         {
-            //Simulation simulation = new Simulation();
-            //simulation.Simulate();
+            Simulation simulation = new Simulation();
+            simulation.Simulate();
 
             //Customer customer = new Customer();
             //Can canFromCustomer = customer.GatherCoinsFromWallet("Cola");

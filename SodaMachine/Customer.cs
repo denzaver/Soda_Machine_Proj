@@ -33,7 +33,8 @@ namespace SodaMachine
             while (targetValue > TotalCoinValue(payCoins))
             {
                 //prompt user to choose a coin with CW/CR
-                Console.WriteLine("Please select a coin you want to enter:");
+                Console.WriteLine("Please select a coin to enter:");
+                UserInterface.CoinSelection(selectedCan, );
                 string userIinput = Console.ReadLine();
                 //then depending on their choice, call GetCoinFromWallet and pass in the appropriate name
                 Coin coin = GetCoinFromWallet(userIinput);

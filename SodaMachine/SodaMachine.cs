@@ -95,7 +95,7 @@ namespace SodaMachine
             // code exaxmple proivded by charles  
 
             // need input from customer of the soda that they want
-            string customerCanSelection = ""; 
+            string customerCanSelection = UserInterface.SodaSelection(_inventory);
 
             // grab the desired soday from the invetory based on the customers choice
             Can canchoice = GetSodaFromInventory(customerCanSelection);
