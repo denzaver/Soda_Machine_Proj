@@ -13,9 +13,12 @@ namespace SodaMachine
             //Simulation simulation = new Simulation();
             //simulation.Simulate();
 
-            SodaMachine sodaMachine = new SodaMachine();
-            sodaMachine.FillRegister();
-            sodaMachine.GatherChange(.26);
+            //Customer customer = new Customer();
+            //Can canFromCustomer = customer.GatherCoinsFromWallet("Cola");
+
+            //SodaMachine sodaMachine = new SodaMachine();
+            //sodaMachine.FillRegister();
+            //sodaMachine.GatherChange(.26);
             //bool doesContain = sodaMachine.RegisterHasCoin("Quarter");
             //Console.WriteLine(doesContain);
             //Coin coinFromREgister = sodaMachine.GetCoinFromRegister("dime");

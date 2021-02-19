@@ -243,16 +243,6 @@ namespace SodaMachine
         //Returns null if no coin can be found of that name.
         public Coin GetCoinFromRegister(string name) //self note: return/remove? coin from register
         {
-            //foreach(Coin coin in _register) // cant really remove from within a FOREACH .. use FOR LOOP 
-            //{
-            //    if (name == coin.Name)
-            //    {
-            //        //_register.Remove(coin);
-            //        return coin;
-            //    }
-            //}
-            //return null;
-
             for (int i = 0; i < _register.Count; i++)
             {
                 if (_register[i].Name == name)

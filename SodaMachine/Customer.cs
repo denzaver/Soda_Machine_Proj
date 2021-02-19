@@ -26,9 +26,24 @@ namespace SodaMachine
         //When all is said and done this method will return a list of coin objects that the customer will use a payment for their soda.
         public List<Coin> GatherCoinsFromWallet(Can selectedCan)
         {
+           
+            List<Coin> payCoins = new List<Coin>();
+            double targetValue = selectedCan.Price;       // declared this variable      
+
+            while (targetValue > TotalCoinValue(payCoins))
+            {
+                //prompt user to choose a coin with CW/CR
+                Console.WriteLine("Please select a coin you want to enter:");
+                string userIinput = Console.ReadLine();
+                //then depending on their choice, call GetCoinFromWallet and pass in the appropriate name
+                Coin coin = GetCoinFromWallet(userIinput);
+                //GetCoinFromWallet will return a coin, add that coin to payCoins
+                payCoins.Add(coin);
+            }
+            return payCoins;
 
 
-            return null;
+
         }
         //Returns a coin object from the wallet based on the name passed into it.
         //Returns null if no coin can be found
@@ -36,11 +51,19 @@ namespace SodaMachine
         {
             for (int i = 0; i < Wallet.Coins.Count; i++)
             {
-                Wallet.Coins.RemoveAt(i);
-                return Wallet.Coins[i];
+                //only do this IF the coin's name == coinName
+                if (Wallet.Coins[i].Name == coinName)
+                {
+                    Wallet.Coins.RemoveAt(i);
+                    return Wallet.Coins[i];
+                }
+
             }
+            Console.WriteLine("This coin is not accepted. Please enter a different coin.");
             return null;
         }
+
+        //GetCoinfRomWallet("Nickle")
         //Takes in a list of coin objects to add into the customers wallet.
         public void AddCoinsIntoWallet(List<Coin> coinsToAdd)
         {
@@ -53,6 +76,18 @@ namespace SodaMachine
         public void AddCanToBackpack(Can purchasedCan)
         {
             Backpack.cans.Add(purchasedCan);
+        }
+
+        private double TotalCoinValue(List<Coin> payment)   // this method was copied from the SodaMachine class!!!
+        {
+            //list of coins, EACH coin has a Value
+            //Add up those values
+            double paymentSum = 0;
+            foreach (Coin coin in payment)
+            {
+                paymentSum += coin.Value;
+            }
+            return paymentSum;
         }
     }
 }
